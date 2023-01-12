@@ -20,12 +20,16 @@ ZapparThree.glContextSet(renderer.getContext());
 const scene = new THREE.Scene();
 scene.background = camera.backgroundTexture;
 
-// Request the necessary permission from the user
-ZapparThree.permissionRequestUI().then((granted) => {
-    if (granted) camera.start();
-    else ZapparThree.permissionDeniedUI();
-});
-
+const popup = document.querySelector(".popup");
+popup.addEventListener("click", () => {
+    popup.remove();
+    // Request the necessary permission from the user
+    ZapparThree.permissionRequest().then((granted) => {
+        console.log(granted);
+        if (granted) camera.start();
+        else ZapparThree.permissionDeniedUI();
+    });
+})
 // Set up our instant tracker group
 const tracker = new ZapparThree.InstantWorldTracker();
 const trackerGroup = new ZapparThree.InstantWorldAnchorGroup(camera, tracker);
